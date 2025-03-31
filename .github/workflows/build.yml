@@ -78,7 +78,7 @@ jobs:
         -DCMAKE_SKIP_RPATH=ON
         make -j$(nproc)
         make DESTDIR=sigil.AppDir install
-        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt --plugin appimage
+        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt --output appimage
 
     #- name: Upload Artifact
     #  uses: actions/upload-artifact@v4
