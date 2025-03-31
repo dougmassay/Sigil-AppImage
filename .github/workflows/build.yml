@@ -62,7 +62,7 @@ jobs:
         chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
         wget https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
         chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
-        cmake "{$GITHUB_WORKSPACE}/sigil" \
+        cmake $GITHUB_WORKSPACE/sigil \
         -G "Unix Makefiles" \
         -DCMAKE_PREFIX_PATH="{$QT_ROOT_DIR}/lib/cmake" \
         -DCMAKE_BUILD_TYPE=Release \
