@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: master
+        path: main
+
     - name: Checkout Sigil
       uses: actions/checkout@v4
       with:
@@ -62,7 +68,7 @@ jobs:
     - name: Build Sigil
       working-directory: ${{runner.workspace}}/build
       run: |
-        echo ${QT_ROOT_DIR}
+        echo ${{QT_ROOT_DIR}}
         cmake $GITHUB_WORKSPACE/sigil \
         -G "Unix Makefiles" \
         -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
@@ -73,7 +79,7 @@ jobs:
         -DCMAKE_SKIP_RPATH=ON
         make -j$(nproc)
         make DESTDIR=sigil.AppDir install
-        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
+        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt --plugin appimage
 
     #- name: Upload Artifact
     #  uses: actions/upload-artifact@v4
