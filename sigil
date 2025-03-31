@@ -1,0 +1,37 @@
+#!/bin/sh
+
+SCRIPT=`readlink -f -- $0`
+SCRIPTPATH=`dirname $SCRIPT`
+APPDIR="${APPDIR:-$SCRIPTPATH/../..}"
+echo "${APPDIR}"
+
+# Entry point for Sigil on Unix systems.
+SIGIL_BIN_DIR="${APPDIR}/usr/lib/sigil/"
+
+if [ -z "$LD_LIBRARY_PATH" ]; then
+  LD_LIBRARY_PATH="${APPDIR}/usr/lib/"
+else
+  LD_LIBRARY_PATH="${APPDIR}/usr/lib/:$LD_LIBRARY_PATH"
+fi
+
+echo "${LD_LIBRARY_PATH}"
+
+# Create an environment var for the Sigil share directory location.
+#if [ -z "$SIGIL_SHARE_PREFIX" ]; then
+#  SIGIL_SHARE_PREFIX="${APPDIR}/usr"
+#  export SIGIL_SHARE_PREFIX
+#  echo $SIGIL_SHARE_PREFIX
+#fi
+
+# Not really needed anymore but left in for fringe cases
+if [ -z "$SIGIL_EXTRA_ROOT" ]; then
+  SIGIL_EXTRA_ROOT="${APPDIR}/usr/share/sigil"
+  export SIGIL_EXTRA_ROOT
+  echo "${SIGIL_EXTRA_ROOT}"
+fi
+
+export LD_LIBRARY_PATH
+
+#exec ../lib/sigil/sigil "$@"
+exec "${APPDIR}/usr/lib/sigil/sigil" "$@"
+
