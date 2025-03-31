@@ -15,7 +15,7 @@ jobs:
       with:
         repository: sigil-ebook/Sigil
         ref: master
-        path: website
+        path: sigil
 
     - name: Set up Python 3.13.2
       uses: actions/setup-python@v5
@@ -64,7 +64,7 @@ jobs:
     - name: Build Sigil
       working-directory: ${{runner.workspace}}/build
       run: |
-        cmake $GITHUB_WORKSPACE \
+        cmake "{$GITHUB_WORKSPACE}/sigil" \
         -G "Unix Makefiles" \
         -DCMAKE_PREFIX_PATH="{$QT_ROOT_DIR}/lib/cmake" \
         -DCMAKE_BUILD_TYPE=Release \
