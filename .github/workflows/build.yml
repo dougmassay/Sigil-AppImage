@@ -42,7 +42,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt install mesa-common-dev libglu1-mesa-dev
+        sudo apt-get install -y mesa-common-dev libglu1-mesa-dev libxcb-cursor-dev
         which cmake
         cmake --version
         which qmake
@@ -62,9 +62,10 @@ jobs:
     - name: Build Sigil
       working-directory: ${{runner.workspace}}/build
       run: |
+        echo ${QT_ROOT_DIR}
         cmake $GITHUB_WORKSPACE/sigil \
         -G "Unix Makefiles" \
-        -DCMAKE_PREFIX_PATH={$QT_ROOT_DIR}/lib/cmake \
+        -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
         -DCMAKE_BUILD_TYPE=Release \
         -DINSTALL_HICOLOR_ICONS=1 \
         -DCMAKE_INSTALL_PREFIX=/usr \
