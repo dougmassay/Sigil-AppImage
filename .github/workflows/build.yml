@@ -1,5 +1,5 @@
 
-name: Build Sigil Plugin Python AppImages
+name: Build Sigil AppImage
 
 on:
  workflow_dispatch:
