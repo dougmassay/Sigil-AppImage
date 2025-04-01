@@ -53,7 +53,8 @@ def copy_site_packages():
                             if pkg in ('PySide6', 'shiboken6'):
                                 shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_pyside6_dirs)
                             else:
-                                shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_dirs)
+                                print('Here we are!')
+                                shutil.copytree(os.path.join(path, entry), site_dest, ignore=ignore_in_dirs)
                             found = True
                             break
                         else:
@@ -136,7 +137,7 @@ def copy_python():
         ans = []
         for x in items:
             ext = os.path.splitext(x)[1]
-            if (not ext and (x in ('demos', 'tests', 'test', 'idlelib', 'lib2to3', '__pycache__', 'site-packages')) or x.startswith('plat-')) or \
+            if (not ext and (x in ('turtledemo', 'demos', 'tests', 'test', 'idlelib', 'lib2to3', '__pycache__', 'site-packages')) or x.startswith('plat-')) or \
                 (ext in ('.chm', '.htm', '.txt')):
                 ans.append(x)
         return ans
