@@ -8,6 +8,8 @@ pybase = sys.base_prefix
 print('Base Prefix= ' + pybase)
 py_exe = os.path.join(pybase, "python3.exe")
 print(site.getsitepackages())
+files = os.listdir(pybase)
+print(files)
 
 # Where we're going to copy stuff
 #lib_dir = os.path.join(tmp_prefix, 'Lib')
@@ -159,8 +161,7 @@ def copy_python():
                 ans.append(x)
         return ans
 
-    shutil.copytree(os.path.join(pybase, "Lib"), lib_dir,
-                ignore=ignore_lib)
+    shutil.copytree(os.path.join(pybase, "Lib"), lib_dir, ignore=ignore_lib)
 
 
 def compile_libs():

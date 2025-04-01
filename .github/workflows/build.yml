@@ -47,6 +47,7 @@ jobs:
 
     - name: Test Python
       run: |
+        which python3
         pip install lxml six urllib3 certifi dulwich
         python3 $GITHUB_WORKSPACE/python3_gather.py
 
