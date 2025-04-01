@@ -39,19 +39,19 @@ site_packages = [ ('lxml', 'd'),
 
 
 def copy_site_packages():
-    #if not os.path.exists(site_dest):
-    #    os.makedirs(site_dest)
+    if not os.path.exists(site_dest):
+        os.makedirs(site_dest)
     for pkg, typ in site_packages:
         found = False
         # Uses site-packages from venv or base python
         for path in site.getsitepackages():
             if not found:
                 for entry in os.listdir(path):
+                    print(os.path.join(path, entry))
                     if entry == pkg:
                         if typ == 'd' and os.path.isdir(os.path.join(path, entry)):
                             if pkg in ('PySide6', 'shiboken6'):
-                                pass
-                                #shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_pyside6_dirs)
+                                shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_pyside6_dirs)
                             else:
                                 shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_dirs)
                             found = True
