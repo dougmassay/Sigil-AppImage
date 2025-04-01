@@ -257,8 +257,8 @@ if __name__ == '__main__':
     pylib = os.path.join(pybase, 'usr', 'lib', f'python{py_ver}')
     py_exe = os.path.join(pybase, 'usr', 'bin', 'python3')
     print(site.getsitepackages())
-    files = os.listdir(pylib)
-    print(files)
+    #files = os.listdir(pylib)
+    #print(files)
 
     lib_dir = os.path.join(base_dest, 'lib')
     site_dest = os.path.join(lib_dir, f'python{py_ver}', 'site-packages')
