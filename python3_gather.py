@@ -276,3 +276,4 @@ if __name__ == '__main__':
     #fix_pyside6_qt_conf()
     #patch_pillow_init()
     #compile_libs()
+    pass
