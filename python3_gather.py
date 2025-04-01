@@ -6,7 +6,7 @@ import sys, os, glob, inspect, shutil, platform, textwrap, site
 # Get "real" python binary, libs and stdlibs regardless if a venv is being used.
 pybase = sys.base_prefix
 print('Base Prefix= ' + pybase)
-pylib = os.path.join(pybase, 'lib')
+pylib = os.path.join(pybase, 'lib', 'python3.13')
 py_exe = os.path.join(pybase, 'bin', 'python3')
 print(site.getsitepackages())
 files = os.listdir(pylib)
