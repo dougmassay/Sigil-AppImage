@@ -31,76 +31,76 @@ jobs:
       with:
         python-version: ${{env.PY_VER2}}
 
-    # - name: Cache Qt
-    #   id: cache-qt
-    #   uses: actions/cache@v4
-    #   with:
-    #     path: ${{runner.workspace}}/Qt
-    #     key: ${{ runner.os }}-sigilqt-${{ hashFiles('**/reset-lin-caches.txt') }}
+     - name: Cache Qt
+       id: cache-qt
+       uses: actions/cache@v4
+       with:
+         path: ${{runner.workspace}}/Qt
+         key: ${{ runner.os }}-sigilqt-${{ hashFiles('**/reset-lin-caches.txt') }}
   
-    # - name: Install Qt
-    #   uses: jurplel/install-qt-action@v3
-    #   with:
-    #     version: '6.8.2'
-    #     dir: ${{runner.workspace}}/Qt
-    #     modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport'
-    #     setup-python: 'false'
-    #     cache: ${{ steps.cache-qt.outputs.cache-hit }}
+     - name: Install Qt
+       uses: jurplel/install-qt-action@v3
+       with:
+         version: '6.8.2'
+         dir: ${{runner.workspace}}/Qt
+         modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport'
+         setup-python: 'false'
+         cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - uses: lukka/get-cmake@latest
 
-    - name: Test Python
+    - name: Package Python
       run: |
         which python3
+        mkdir ${{runner.workspace}}/build
         pip install lxml six urllib3 certifi dulwich css-parser
         python3 $GITHUB_WORKSPACE/python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
-    # - name: Install dependencies
-    #   run: |
-    #     sudo apt-get install -y mesa-common-dev libglu1-mesa-dev libxcb-cursor-dev
-    #     which cmake
-    #     cmake --version
-    #     which ninja
-    #     ninja --version
-    #     which qmake
-    #     qmake -v
-    #     which python3
-    #     python3 --version
-    #     gcc --version
-    #     cp -f PluginRunner.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Dialogs/
-    #     mkdir ${{runner.workspace}}/build
-    #     cd ${{runner.workspace}}/build
-    #     wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-    #     chmod +x linuxdeploy-x86_64.AppImage
-    #     wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
-    #     chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
-    #     wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
-    #     chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
+     - name: Install dependencies
+       run: |
+         sudo apt-get install -y mesa-common-dev libglu1-mesa-dev libxcb-cursor-dev
+         which cmake
+         cmake --version
+         which ninja
+         ninja --version
+         which qmake
+         qmake -v
+         which python3
+         python3 --version
+         gcc --version
+         cp -f PluginRunner.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Dialogs/
+         cd ${{runner.workspace}}/build
+         wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+         chmod +x linuxdeploy-x86_64.AppImage
+         wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+         chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+         wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+         chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
 
 
-    # - name: Build Sigil
-    #   working-directory: ${{runner.workspace}}/build
-    #   run: |
-    #     echo "${QT_ROOT_DIR}"
-    #     cmake $GITHUB_WORKSPACE/sigilsrc \
-    #     -G "Ninja" \
-    #     -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
-    #     -DCMAKE_BUILD_TYPE=Release \
-    #     -DINSTALL_HICOLOR_ICONS=1 \
-    #     -DCMAKE_INSTALL_PREFIX=/usr \
-    #     -DCMAKE_INSTALL_LIBDIR=lib \
-    #     -DCMAKE_SKIP_RPATH=ON
-    #     ninja
-    #     DESTDIR=sigil.AppDir ninja install
-    #     cp -f $GITHUB_WORKSPACE/sigil ${{runner.workspace}}/build/sigil.AppDir/usr/bin/
-    #     NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
-    #     cp -f $GITHUB_WORKSPACE/qt.conf ${{runner.workspace}}/build/sigil.AppDir/usr/lib/sigil/
-    #     ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
+     - name: Build Sigil
+       working-directory: ${{runner.workspace}}/build
+       run: |
+         echo "${QT_ROOT_DIR}"
+         cmake $GITHUB_WORKSPACE/sigilsrc \
+         -G "Ninja" \
+         -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
+         -DCMAKE_BUILD_TYPE=Release \
+         -DINSTALL_HICOLOR_ICONS=1 \
+         -DCMAKE_INSTALL_PREFIX=/usr \
+         -DCMAKE_INSTALL_LIBDIR=lib \
+         -DCMAKE_SKIP_RPATH=ON
+         ninja
+         DESTDIR=sigil.AppDir ninja install
+         cp -f $GITHUB_WORKSPACE/sigil ${{runner.workspace}}/build/sigil.AppDir/usr/bin/
+         NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
+         cp -f $GITHUB_WORKSPACE/qt.conf ${{runner.workspace}}/build/sigil.AppDir/usr/lib/sigil/
+         ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
 
-    # - name: Upload Artifact
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: AppImage-artifact
-    #     path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
-    #     retention-days: 8
+     - name: Upload Artifact
+       uses: actions/upload-artifact@v4
+       with:
+         name: AppImage-artifact
+         path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
+         retention-days: 8
 
