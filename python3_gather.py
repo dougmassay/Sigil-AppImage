@@ -6,18 +6,12 @@ import sys, os, glob, inspect, shutil, platform, textwrap, site
 # Get "real" python binary, libs and stdlibs regardless if a venv is being used.
 global base_dest
 global py_ver
-pybase = sys.base_prefix
-print('Base Prefix= ' + pybase)
-pylib = os.path.join(pybase, 'lib', 'python3.13')
-py_exe = os.path.join(pybase, 'bin', 'python3')
-print(site.getsitepackages())
-files = os.listdir(pylib)
-print(files)
+global pylib
+global py_exe
 
-# Where we're going to copy stuff
-#lib_dir = os.path.join(tmp_prefix, 'Lib')
-#dll_dir = os.path.join(tmp_prefix, 'DLLs')
-#site_dest = os.path.join(lib_dir, 'site-packages')
+#AppImage Destination directories
+global lib_dir
+global site_dest
 
 # QUiTools needs QtOpenGlWidgets (on Windows anyway)
 PYSIDE6_MODULES = [
@@ -58,12 +52,12 @@ def copy_site_packages():
                                 #shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_pyside6_dirs)
                             else:
                                 pass
-                                #shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_dirs)
+                                shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_dirs)
                             found = True
                             break
                         else:
                             if os.path.isfile(os.path.join(path, entry)):
-                                #shutil.copy2(os.path.join(path, entry), os.path.join(site_dest, entry))
+                                shutil.copy2(os.path.join(path, entry), os.path.join(site_dest, entry))
                                 found = True
                                 break
             else:
@@ -113,10 +107,6 @@ def ignore_in_dirs(base, items, ignored_dirs=None):
     return ans
 
 
-def dll_walk():
-    shutil.copytree(os.path.join(pybase, "DLLs"), dll_dir,
-                ignore=shutil.ignore_patterns('msvc*.dll', 'Microsoft.*'))
-
 
 def copy_tk_tcl():
     def ignore_lib(root, items):
@@ -136,22 +126,8 @@ def copy_tk_tcl():
                 shutil.copytree(os.path.join(src, entry), os.path.join(lib_dir, entry), ignore=ignore_lib)
 
 
-def copy_pylib():
-    fldrs = (pybase, sys_dlls)
-    dll_found = False
-    for fldr in fldrs:
-        if os.path.exists(os.path.join(fldr, 'python%s.dll'%py_ver)):
-            shutil.copy2(os.path.join(fldr, 'python%s.dll'%py_ver), tmp_prefix)
-            dll_found = True
-            try:
-                shutil.copy2(os.path.join(fldr, 'python3.dll'), tmp_prefix)
-            except:
-                pass
-            break
-    if not dll_found:
-        print ('Couldn\'t find the Python%s.dll file.'%py_ver)
-        exit
-    shutil.copy2(py_exe, os.path.join(tmp_prefix, "python3.exe"))
+def copy_pyexe():
+    shutil.copy2(py_exe, os.path.join(base_dest, 'bin', 'python3.exe'))
 
 
 def copy_python():
@@ -164,7 +140,7 @@ def copy_python():
                 ans.append(x)
         return ans
 
-    shutil.copytree(os.path.join(pybase, "Lib"), lib_dir, ignore=ignore_lib)
+    shutil.copytree(pylib, lib_dir, ignore=ignore_lib)
 
 
 def compile_libs():
@@ -271,12 +247,26 @@ def patch_pillow_init():
 if __name__ == '__main__':
     base_dest = sys.argv[1]
     py_ver = sys.argv[2]
+
     print(f'base_dest: {base_dest}')
     print(f'py_ver: {py_ver}')
+    
+    pybase = sys.base_prefix
+    print(f'Base Prefix: {pybase}')
+    
+    pylib = os.path.join(pybase, 'usr', 'lib', f'python{py_ver}')
+    py_exe = os.path.join(pybase, 'usr', 'bin', 'python3')
+    print(site.getsitepackages())
+    files = os.listdir(pylib)
+    print(files)
+
+    lib_dir = os.path.join(base_dest, 'lib')
+    site_dest = os.path.join(lib_dir, f'python{py_ver}', 'site-packages')
+    os.mkdirs(site_dest)
     #dll_walk()
     #copy_pylib()
-    #copy_python()
-    #copy_site_packages()
+    copy_python()
+    copy_site_packages()
     #create_site_py()
     # create_pyvenv()
     # create_qt_conf()
