@@ -127,7 +127,7 @@ def copy_tk_tcl():
 
 
 def copy_pyexe():
-    shutil.copy2(py_exe, os.path.join(base_dest, 'bin', 'python3.exe'))
+    shutil.copy2(py_exe, os.path.join(base_dest, 'usr', 'bin', 'python3.exe'))
 
 
 def copy_python():
@@ -254,13 +254,15 @@ if __name__ == '__main__':
     pybase = sys.base_prefix
     print(f'Base Prefix: {pybase}')
     
-    pylib = os.path.join(pybase, 'usr', 'lib', f'python{py_ver}')
-    py_exe = os.path.join(pybase, 'usr', 'bin', 'python3')
+    pylib = os.path.join(pybase, 'lib', f'python{py_ver}')
+    py_exe = os.path.join(pybase, 'bin', 'python3')
     print(site.getsitepackages())
     #files = os.listdir(pylib)
     #print(files)
 
-    lib_dir = os.path.join(base_dest, 'lib')
+    lib_dir = os.path.join(base_dest, 'usr' 'lib')
+    bin_dir = os.path.join(base_dest, 'usr' 'bin')
+    os.makedirs(bin_dir, exist_ok=True)
     site_dest = os.path.join(lib_dir, f'python{py_ver}', 'site-packages')
     os.makedirs(site_dest, exist_ok=True)
     #dll_walk()
