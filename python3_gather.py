@@ -262,7 +262,7 @@ if __name__ == '__main__':
 
     lib_dir = os.path.join(base_dest, 'lib')
     site_dest = os.path.join(lib_dir, f'python{py_ver}', 'site-packages')
-    os.mkdirs(site_dest)
+    os.makedirs(site_dest, exist_ok=True)
     #dll_walk()
     #copy_pylib()
     copy_python()
