@@ -47,18 +47,22 @@ def copy_site_packages():
         for path in site.getsitepackages():
             if not found:
                 for entry in os.listdir(path):
-                    print(os.path.join(path, entry))
                     if entry == pkg:
                         if typ == 'd' and os.path.isdir(os.path.join(path, entry)):
                             if pkg in ('PySide6', 'shiboken6'):
                                 shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True, ignore=ignore_in_pyside6_dirs)
                             else:
-                                print('Here we are!')
-                                shutil.copytree(os.path.join(path, entry), site_dest, dirs_exist_ok=True, ignore=ignore_in_dirs)
+                                print('Here we are dir!')
+                                print(f'Src: {os.path.join(path, entry)}')
+                                print(f'Dest: {os.path.join(site_dest, entry)}')
+                                shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True, ignore=ignore_in_dirs)
                             found = True
                             break
                         else:
                             if os.path.isfile(os.path.join(path, entry)):
+                                print('Here we are file!')
+                                print(f'Src: {os.path.join(path, entry)}')
+                                print(f'Dest: {os.path.join(site_dest, entry)}')
                                 shutil.copy2(os.path.join(path, entry), os.path.join(site_dest, entry))
                                 found = True
                                 break
@@ -104,7 +108,7 @@ def ignore_in_dirs(base, items, ignored_dirs=None):
             if name in ignored_dirs: # or not os.path.exists(os.path.join(path, '__init__.py')):
                 ans.append(name)
         #else:
-        #    if name.rpartition('.')[-1] not in ('py', 'pyd', 'dll'):
+        #    if name.rpartition('.')[-1] not in ('so', 'py', 'pxd', 'h', 'rng', 'xsl' ):
         #        ans.append(name)
     return ans
 
@@ -266,7 +270,7 @@ if __name__ == '__main__':
     #os.makedirs(lib_dir, exist_ok=True)
     bin_dir = os.path.join(base_dest, 'usr', 'bin')
     os.makedirs(bin_dir, exist_ok=True)
-    site_dest = os.path.join(lib_dir, f'python{py_ver}', 'site-packages')
+    site_dest = os.path.join(lib_dir, 'site-packages')
     #os.makedirs(site_dest, exist_ok=True)
     #dll_walk()
     #copy_pylib()
