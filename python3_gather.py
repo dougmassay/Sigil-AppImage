@@ -4,6 +4,8 @@
 import sys, os, glob, inspect, shutil, platform, textwrap, site
 
 # Get "real" python binary, libs and stdlibs regardless if a venv is being used.
+global base_dest
+global py_ver
 pybase = sys.base_prefix
 print('Base Prefix= ' + pybase)
 pylib = os.path.join(pybase, 'lib', 'python3.13')
@@ -267,6 +269,10 @@ def patch_pillow_init():
 
 
 if __name__ == '__main__':
+    base_dest = sys.argv[1]
+    py_ver = sys.argv[2]
+    print(f'base_dest: {base_dest}')
+    print(f'py_ver: {py_ver}')
     #dll_walk()
     #copy_pylib()
     #copy_python()

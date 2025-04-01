@@ -4,6 +4,10 @@ name: Build Sigil AppImage
 on:
  workflow_dispatch:
 
+env:
+  PY_VER: 3.13
+  PY_VER2: 3.13.2
+
 jobs:
   build:
     #if: "!contains(github.event.head_commit.message, '[skip ci]')"
@@ -22,10 +26,10 @@ jobs:
         ref: master
         path: sigilsrc
 
-    - name: Set up Python 3.13.2
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: 3.13.2
+        python-version: ${{env.PY_VER2}}
 
     # - name: Cache Qt
     #   id: cache-qt
@@ -49,7 +53,7 @@ jobs:
       run: |
         which python3
         pip install lxml six urllib3 certifi dulwich
-        python3 $GITHUB_WORKSPACE/python3_gather.py
+        python3 $GITHUB_WORKSPACE/python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
     # - name: Install dependencies
     #   run: |
