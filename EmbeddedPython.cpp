@@ -268,7 +268,7 @@ EmbeddedPython::EmbeddedPython()
     QDir exedir(QCoreApplication::applicationDirPath());
     exedir.cdUp();
     exedir.cdUp();
-    QString pyhomepath = exedir.absolutePath() + PYTHON_MAIN_PREFIX;
+    QString pyhomepath = exedir.absolutePath();
     #QString pyhomepath = QCoreApplication::applicationDirPath();
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
         QString pysyspath = pyhomepath + PYTHON_MAIN_PATH + src_path;
