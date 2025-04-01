@@ -265,7 +265,11 @@ EmbeddedPython::EmbeddedPython()
         }
     }
 #else // *nix
-    QString pyhomepath = QCoreApplication::applicationDirPath();
+    QDir exedir(QCoreApplication::applicationDirPath());
+    exedir.cdUp();
+    exedir.cdUp();
+    QString pyhomepath = exedir.absolutePath() + PYTHON_MAIN_PREFIX;
+    #QString pyhomepath = QCoreApplication::applicationDirPath();
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
         QString pysyspath = pyhomepath + PYTHON_MAIN_PATH + src_path;
         status = PyWideStringList_Append(&config.module_search_paths, pysyspath.toStdWString().c_str());
