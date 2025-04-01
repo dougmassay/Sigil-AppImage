@@ -54,7 +54,7 @@ def copy_site_packages():
                                 shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), ignore=ignore_in_pyside6_dirs)
                             else:
                                 print('Here we are!')
-                                shutil.copytree(os.path.join(path, entry), site_dest, ignore=ignore_in_dirs)
+                                shutil.copytree(os.path.join(path, entry), site_dest, dirs_exist_ok=True ignore=ignore_in_dirs)
                             found = True
                             break
                         else:
