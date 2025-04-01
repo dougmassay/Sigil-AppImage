@@ -39,6 +39,8 @@ site_packages = [ ('lxml', 'd'),
 
 
 def copy_site_packages():
+    if not os.path.exists(site_dest):
+        os.makedirs(site_dest)
     for pkg, typ in site_packages:
         found = False
         # Uses site-packages from venv or base python
