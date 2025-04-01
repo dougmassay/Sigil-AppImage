@@ -27,21 +27,21 @@ jobs:
       with:
         python-version: 3.13.2
 
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v4
-      with:
-        path: ${{runner.workspace}}/Qt
-        key: ${{ runner.os }}-sigilqt-${{ hashFiles('**/reset-lin-caches.txt') }}
+    # - name: Cache Qt
+    #   id: cache-qt
+    #   uses: actions/cache@v4
+    #   with:
+    #     path: ${{runner.workspace}}/Qt
+    #     key: ${{ runner.os }}-sigilqt-${{ hashFiles('**/reset-lin-caches.txt') }}
   
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        version: '6.8.2'
-        dir: ${{runner.workspace}}/Qt
-        modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport'
-        setup-python: 'false'
-        cache: ${{ steps.cache-qt.outputs.cache-hit }}
+    # - name: Install Qt
+    #   uses: jurplel/install-qt-action@v3
+    #   with:
+    #     version: '6.8.2'
+    #     dir: ${{runner.workspace}}/Qt
+    #     modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport'
+    #     setup-python: 'false'
+    #     cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
     - uses: lukka/get-cmake@latest
 
@@ -60,36 +60,38 @@ jobs:
         cp -f PluginRunner.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Dialogs/
         mkdir ${{runner.workspace}}/build
         cd ${{runner.workspace}}/build
-        wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-        chmod +x linuxdeploy-x86_64.AppImage
-        wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
-        chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
-        wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
-        chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
+        # wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+        # chmod +x linuxdeploy-x86_64.AppImage
+        # wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+        # chmod +x linuxdeploy-plugin-qt-x86_64.AppImage
+        # wget -nv https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+        # chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
+        pip install lxml six urllib3 certifi dulwich
+        python3 $GITHUB_WORKSPACE/python3_gather.py
 
-    - name: Build Sigil
-      working-directory: ${{runner.workspace}}/build
-      run: |
-        echo "${QT_ROOT_DIR}"
-        cmake $GITHUB_WORKSPACE/sigilsrc \
-        -G "Ninja" \
-        -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DINSTALL_HICOLOR_ICONS=1 \
-        -DCMAKE_INSTALL_PREFIX=/usr \
-        -DCMAKE_INSTALL_LIBDIR=lib \
-        -DCMAKE_SKIP_RPATH=ON
-        ninja
-        DESTDIR=sigil.AppDir ninja install
-        cp -f $GITHUB_WORKSPACE/sigil ${{runner.workspace}}/build/sigil.AppDir/usr/bin/
-        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
-        cp -f $GITHUB_WORKSPACE/qt.conf ${{runner.workspace}}/build/sigil.AppDir/usr/lib/sigil/
-        ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
+    # - name: Build Sigil
+    #   working-directory: ${{runner.workspace}}/build
+    #   run: |
+    #     echo "${QT_ROOT_DIR}"
+    #     cmake $GITHUB_WORKSPACE/sigilsrc \
+    #     -G "Ninja" \
+    #     -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
+    #     -DCMAKE_BUILD_TYPE=Release \
+    #     -DINSTALL_HICOLOR_ICONS=1 \
+    #     -DCMAKE_INSTALL_PREFIX=/usr \
+    #     -DCMAKE_INSTALL_LIBDIR=lib \
+    #     -DCMAKE_SKIP_RPATH=ON
+    #     ninja
+    #     DESTDIR=sigil.AppDir ninja install
+    #     cp -f $GITHUB_WORKSPACE/sigil ${{runner.workspace}}/build/sigil.AppDir/usr/bin/
+    #     NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
+    #     cp -f $GITHUB_WORKSPACE/qt.conf ${{runner.workspace}}/build/sigil.AppDir/usr/lib/sigil/
+    #     ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
 
-    - name: Upload Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: AppImage-artifact
-        path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
-        retention-days: 8
+    # - name: Upload Artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: AppImage-artifact
+    #     path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
+    #     retention-days: 8
 
