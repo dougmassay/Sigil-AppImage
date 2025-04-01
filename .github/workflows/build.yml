@@ -52,7 +52,7 @@ jobs:
     - name: Test Python
       run: |
         which python3
-        pip install lxml six urllib3 certifi dulwich
+        pip install lxml six urllib3 certifi dulwich css-parser
         python3 $GITHUB_WORKSPACE/python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
     # - name: Install dependencies
