@@ -260,7 +260,7 @@ if __name__ == '__main__':
     #files = os.listdir(pylib)
     #print(files)
 
-    lib_dir = os.path.join(base_dest, 'usr', 'lib')
+    lib_dir = os.path.join(base_dest, 'usr', 'lib', f'python{py_ver}',)
     os.makedirs(lib_dir, exist_ok=True)
     bin_dir = os.path.join(base_dest, 'usr', 'bin')
     os.makedirs(bin_dir, exist_ok=True)
