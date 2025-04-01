@@ -102,4 +102,3 @@ jobs:
          name: AppImage-artifact
          path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
          retention-days: 8
-
