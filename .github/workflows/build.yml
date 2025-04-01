@@ -2,7 +2,7 @@
 name: Build Sigil AppImage
 
 on:
- workflow_dispatch:
+  workflow_dispatch:
 
 env:
   PY_VER: 3.13
