@@ -271,7 +271,7 @@ EmbeddedPython::EmbeddedPython()
     QString pyhomepath = exedir.absolutePath();
     #QString pyhomepath = QCoreApplication::applicationDirPath();
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
-        QString pysyspath = pyhomepath + '/lib/python3.12.2/' + src_path;
+        QString pysyspath = pyhomepath + '/lib/python3.13.2/' + src_path;
         status = PyWideStringList_Append(&config.module_search_paths, pysyspath.toStdWString().c_str());
         if (PyStatus_Exception(status)) {
             qDebug() << "EmbeddedPython constructor error: Could not set sys.path";
