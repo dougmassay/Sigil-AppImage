@@ -30,6 +30,10 @@ if [ -z "$SIGIL_EXTRA_ROOT" ]; then
   echo "${SIGIL_EXTRA_ROOT}"
 fi
 
+PYTHONHOME="${APPDIR}/usr"
+export PYTHONHOME
+echo "${PYTHONHOME}"
+
 export LD_LIBRARY_PATH
 
 #exec ../lib/sigil/sigil "$@"
