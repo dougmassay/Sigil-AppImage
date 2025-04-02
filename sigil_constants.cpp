@@ -66,9 +66,5 @@ const bool dicts_are_bundled = DICTS_ARE_BUNDLED;
 const QString extra_dict_dirs = QString(EXTRA_DICT_DIRS);
 const QString mathjax3_dir = QString(MATHJAX3_DIR);
 const QString virt_python_bin = QString(VIRT_PYTHON_BIN);
-#if __x86_64__ || __ppc64__
 const QStringList PYTHON_SYS_PATHS = QStringList () << "/plat-x86_64-linux-gnu" << "/plat-linux" << "/lib-dynload" << "/site-packages";
-#else
-const QStringList PYTHON_SYS_PATHS = QStringList () << "/plat-i386-linux-gnu" << "/plat-linux" << "/lib-dynload" << "/site-packages";
-#endif
 #endif
