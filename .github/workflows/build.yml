@@ -82,10 +82,10 @@ jobs:
     - name: Build Sigil
       working-directory: ${{runner.workspace}}/build
       run: |
-        echo "${QT_ROOT_DIR}"
         cmake $GITHUB_WORKSPACE/sigilsrc \
         -G "Ninja" \
         -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
+        -DPKG_SYSTEM_PYTHON=1
         -DCMAKE_BUILD_TYPE=Release \
         -DINSTALL_HICOLOR_ICONS=1 \
         -DCMAKE_INSTALL_PREFIX=/usr \
