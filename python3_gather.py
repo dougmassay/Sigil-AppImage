@@ -87,7 +87,7 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
             if name in ignored_dirs:  # or not os.path.exists(os.path.join(path, '__init__.py')):
                 ans.append(name)
         else:
-            if name.rpartition('.')[-1] == ''
+            if name.rpartition('.')[-1] == '':
                 ans.append(name)
             '''if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
                 ans.append(name)
