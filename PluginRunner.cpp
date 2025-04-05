@@ -368,7 +368,7 @@ void PluginRunner::startPlugin()
         // Set Python env variables to control how the bundled interpreter finds it's various pieces
         // (and to isolate the bundled interpreter from any system Python).
         // Relative to the interpreter binary to make it easier to relocate the bundled Python.
-        QString pythonhome = QDir::toNativeSeparators(AppImageLibs + PYTHON_LIB_PATH).absolutePath();
+        QString pythonhome = QDir::toNativeSeparators(AppImageLibs + PYTHON_LIB_PATH);
         env.insert("PYTHONHOME", pythonhome);
         env.insert("PYTHONIOENCODING", "UTF-8");
         // Remove all other Python environment variables to avoid potential system Python interference.
