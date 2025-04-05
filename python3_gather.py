@@ -80,14 +80,16 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
     ans = []
     if ignored_dirs is None:
         ignored_dirs = {'.svn', '.bzr', '.git', 'docs', 'examples', 'glue', 'include', 'metatypes', 'modules', 
-                       'plugins', 'qml', 'resources', 'scripts', 'support', 'translations', 'typesystems', '__pycache__'}
+                       'plugins', 'Qt', 'qml', 'resources', 'scripts', 'support', 'translations', 'typesystems', '__pycache__'}
     for name in items:
         path = os.path.join(base, name)
         if os.path.isdir(path):
             if name in ignored_dirs:  # or not os.path.exists(os.path.join(path, '__init__.py')):
                 ans.append(name)
         else:
-            if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
+            if name.rpartition('.')[-1] == ''
+                ans.append(name)
+            '''if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
                 ans.append(name)
             if name.rpartition('.')[-1] == 'pyd' and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
@@ -95,7 +97,7 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
                 ans.append(name)
             # Eliminate Qt6 dll bloat of PyPi Pyside6
             if name.rpartition('.')[-1] == 'so' and name.startswith('Qt6'):
-                ans.append(name)
+                ans.append(name)'''
     return ans
 
 
