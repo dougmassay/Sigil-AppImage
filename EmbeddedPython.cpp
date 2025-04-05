@@ -197,6 +197,7 @@ EmbeddedPython::EmbeddedPython()
     PyConfig_InitIsolatedConfig(&config);
     if (APPIMAGE_BUILD) {
         QString interppath = QCoreApplication::applicationDirPath() + "/python3";
+        qDebug() << "Embedded interpreter path: " << interppath;
         PyConfig_SetString(&config, &config.executable, interppath.toStdWString().c_str());
     }
 #else
@@ -273,6 +274,7 @@ EmbeddedPython::EmbeddedPython()
     //QString pyhomepath = QCoreApplication::applicationDirPath();
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
         QString pysyspath = pyhomepath + "/" + BUNDLED_PY_VERSION + src_path;
+        qDebug() << "sys.path = " << pysyspath;
         status = PyWideStringList_Append(&config.module_search_paths, pysyspath.toStdWString().c_str());
         if (PyStatus_Exception(status)) {
             qDebug() << "EmbeddedPython constructor error: Could not set sys.path";
