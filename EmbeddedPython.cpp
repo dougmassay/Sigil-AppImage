@@ -272,9 +272,9 @@ EmbeddedPython::EmbeddedPython()
 #else // *nix
     QDir exedir(QCoreApplication::applicationDirPath());
     exedir.cdUp();
-    QString pyhomepath = exedir.absolutePath() + "/lib";
+    QString pyhomepath = exedir.absolutePath() + PYTHON_MAIN_PREFIX;
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
-        QString pysyspath = pyhomepath + "/python" + BUNDLED_PY_VERSION + src_path;
+        QString pysyspath = pyhomepath + PYTHON_LIB_PATH + src_path;
         qDebug() << "sys.path = " << pysyspath;
         status = PyWideStringList_Append(&config.module_search_paths, pysyspath.toStdWString().c_str());
         if (PyStatus_Exception(status)) {

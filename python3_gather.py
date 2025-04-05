@@ -27,13 +27,15 @@ site_packages = [ ('lxml', 'd'),
                   ('urllib3', 'd'),
                   ('certifi', 'd'),
                   ('dulwich', 'd'),
-                  ('css_parser', 'd')]  #,
-'''                  ('html5lib','d'), 
+                  ('css_parser', 'd'),
+                  ('html5lib','d'), 
                   ('PIL', 'd'), 
                   ('regex','d'),
                   ('cssselect', 'd'),
                   ('webencodings', 'd'), # needed by html5lib
-                  ('chardet', 'd')]'''
+                  ('chardet', 'd'),
+                  ('shiboken6', 'd'),
+                  ('PySide6', 'd')]
 
 
 #site_packages.extend([('shiboken6', 'd'), ('PySide6', 'd')])
@@ -52,6 +54,7 @@ def copy_site_packages():
                         if typ == 'd' and os.path.isdir(os.path.join(path, entry)):
                             if pkg in ('PySide6', 'shiboken6'):
                                 shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True, ignore=ignore_in_pyside6_dirs)
+                                print('Got some pyside6!')
                             else:
                                 print('Here we are dir!')
                                 print(f'Src: {os.path.join(path, entry)}')
@@ -84,17 +87,14 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
             if name in ignored_dirs:  # or not os.path.exists(os.path.join(path, '__init__.py')):
                 ans.append(name)
         else:
-            if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'dll', 'conf'):
+            if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
                 ans.append(name)
             if name.rpartition('.')[-1] == 'pyd' and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
             if name.rpartition('.')[-1] == 'pyi' and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
             # Eliminate Qt6 dll bloat of PyPi Pyside6
-            if name.rpartition('.')[-1] == 'dll' and name.startswith('Qt6'):
-                ans.append(name)
-            # Eliminate Microsoft runtime dlls
-            if name.rpartition('.')[-1] == 'dll' and not (name.startswith('pyside') or name.startswith('shiboken')):
+            if name.rpartition('.')[-1] == 'so' and name.startswith('Qt6'):
                 ans.append(name)
     return ans
 

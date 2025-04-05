@@ -300,7 +300,7 @@ void PluginRunner::startPlugin()
 #elif defined(Q_OS_WIN32)
         args.append(QString("-Bu"));
 #elif !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
-        args.append(QString("-Ou"));
+        args.append(QString("-Bu"));
 #endif
     }
     else {
@@ -361,12 +361,14 @@ void PluginRunner::startPlugin()
     //Whether bundled or external, set working dir to the directory of the interpreter being used.
     m_process.setWorkingDirectory(QDir::toNativeSeparators(QFileInfo(m_enginePath).absolutePath()));
 #elif !defined(Q_OS_WIN32) && !defined(Q_OS_MAC)
-    QString appdir = QCoreApplication::applicationDirPath();
+    QDir exedir(QCoreApplication::applicationDirPath());
+    exedir.cdUp();
+    QString AppImageLibs = QDir::toNativeSeparators(exedir.absolutePath() + PYTHON_MAIN_PREFIX);
     if (settings.useBundledInterp()) {  // Linux bundled Python settings
         // Set Python env variables to control how the bundled interpreter finds it's various pieces
         // (and to isolate the bundled interpreter from any system Python).
         // Relative to the interpreter binary to make it easier to relocate the bundled Python.
-        QString pythonhome = QDir::toNativeSeparators(appdir + "/python3");
+        QString pythonhome = QDir::toNativeSeparators(AppImageLibs + PYTHON_LIB_PATH).absolutePath();
         env.insert("PYTHONHOME", pythonhome);
         env.insert("PYTHONIOENCODING", "UTF-8");
         // Remove all other Python environment variables to avoid potential system Python interference.
@@ -383,14 +385,14 @@ void PluginRunner::startPlugin()
         // Qt5.7+ variable that may interfere in the future.
         env.remove("QT_QPA_PLATFORMTHEME");
         // Replace Qt environment variables with our own (for bundled PyQt5)
-        env.insert("QT_QPA_PLATFORM_PLUGIN_PATH", QDir::toNativeSeparators(appdir + "/platforms"));
-        env.insert("QT_PLUGIN_PATH", appdir);
+        env.insert("QT_QPA_PLATFORM_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/platforms").absolutePath());
+        env.insert("QT_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/plugins").absolutePath());
         // Prepend Sigil program directory to LD_LIBRARY_PATH so the bundled interpreter
         // can find the included Qt libs (for PyQt5) and the Python dll.
         QStringList ld = env.value("LD_LIBRARY_PATH", "").split(PATH_LIST_DELIM);
-        // Make sure Sigil's appdir appears only once ... and first.
-        ld.removeAll(appdir);
-        ld.prepend(appdir);
+        // Make sure Sigil's libdir appears only once ... and first.
+        ld.removeAll(AppImageLibs);
+        ld.prepend(AppImageLibs);
         // Reset modified LD_LIBRARY_PATH
         env.insert("LD_LIBRARY_PATH", ld.join(PATH_LIST_DELIM));
         // If launched by another program (calibre), the new working directory could mess with how the
@@ -407,6 +409,12 @@ void PluginRunner::startPlugin()
         //}
         //else {
         env.remove("LD_LIBRARY_PATH");
+        if (APPIMAGE_BUILD) {
+            QStringList preload;
+            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so").absolutePath());
+            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so").absolutePath());
+            env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
+        }
         //}
     }
 #endif
