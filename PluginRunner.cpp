@@ -411,8 +411,8 @@ void PluginRunner::startPlugin()
         env.remove("LD_LIBRARY_PATH");
         if (APPIMAGE_BUILD) {
             QStringList preload;
-            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so").absolutePath());
-            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so").absolutePath());
+            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
+            preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
             env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
         }
         //}
