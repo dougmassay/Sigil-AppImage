@@ -385,8 +385,8 @@ void PluginRunner::startPlugin()
         // Qt5.7+ variable that may interfere in the future.
         env.remove("QT_QPA_PLATFORMTHEME");
         // Replace Qt environment variables with our own (for bundled PyQt5)
-        env.insert("QT_QPA_PLATFORM_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/platforms").absolutePath());
-        env.insert("QT_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/plugins").absolutePath());
+        env.insert("QT_QPA_PLATFORM_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/platforms"));
+        env.insert("QT_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/plugins"));
         // Prepend Sigil program directory to LD_LIBRARY_PATH so the bundled interpreter
         // can find the included Qt libs (for PyQt5) and the Python dll.
         QStringList ld = env.value("LD_LIBRARY_PATH", "").split(PATH_LIST_DELIM);
