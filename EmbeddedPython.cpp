@@ -195,6 +195,10 @@ EmbeddedPython::EmbeddedPython()
 #if defined(BUNDLING_PYTHON)
     // initialize to be embedded (isolated)
     PyConfig_InitIsolatedConfig(&config);
+    if (APPIMAGE_BUILD) {
+        QString interppath = QCoreApplication::applicationDirPath() + "/python3";
+        PyConfig_SetString(&config, &config.executable, interppath.toStdWString().c_str());
+    }
 #else
     // Linux, NetBSD, and everyone else (no Bundling)
 #if defined(LINUX_VIRT_PY)
@@ -265,13 +269,10 @@ EmbeddedPython::EmbeddedPython()
         }
     }
 #else // *nix
-    QDir exedir(QCoreApplication::applicationDirPath());
-    exedir.cdUp();
-    exedir.cdUp();
-    QString pyhomepath = exedir.absolutePath();
+    QString pyhomepath = QCoreApplication::applicationDirPath();
     //QString pyhomepath = QCoreApplication::applicationDirPath();
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
-        QString pysyspath = pyhomepath + "/lib/python3.13" + src_path;
+        QString pysyspath = pyhomepath + "/" + BUNDLED_PY_VERSION + src_path;
         status = PyWideStringList_Append(&config.module_search_paths, pysyspath.toStdWString().c_str());
         if (PyStatus_Exception(status)) {
             qDebug() << "EmbeddedPython constructor error: Could not set sys.path";

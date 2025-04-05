@@ -12,6 +12,7 @@ global py_exe
 #AppImage Destination directories
 global lib_dir
 global site_dest
+global bin_dir
 
 # QUiTools needs QtOpenGlWidgets (on Windows anyway)
 PYSIDE6_MODULES = [
@@ -132,8 +133,8 @@ def copy_tk_tcl():
                 shutil.copytree(os.path.join(src, entry), os.path.join(lib_dir, entry), ignore=ignore_lib)
 
 
-def copy_pyexe():
-    shutil.copy2(py_exe, os.path.join(base_dest, 'usr', 'bin', 'python3.exe'))
+def copy_pybin():
+    shutil.copy2(py_exe, os.path.join(bin_dir, 'python3'))
 
 
 def copy_python():
@@ -273,7 +274,7 @@ if __name__ == '__main__':
     site_dest = os.path.join(lib_dir, 'site-packages')
     #os.makedirs(site_dest, exist_ok=True)
     #dll_walk()
-    #copy_pylib()
+    copy_pybin()
     copy_python()
     copy_site_packages()
     #create_site_py()

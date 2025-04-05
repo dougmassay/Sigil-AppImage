@@ -21,7 +21,7 @@ jobs:
     - name: Checkout Sigil
       uses: actions/checkout@v4
       with:
-        repository: sigil-ebook/Sigil
+        repository: dougmassay/Sigil
         ref: master
         path: sigilsrc
 
@@ -69,7 +69,6 @@ jobs:
         gcc --version
         cp -f PluginRunner.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Dialogs/
         cp -f EmbeddedPython.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/EmbedPython/
-        cp -f sigil_constants.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/
         cd ${{runner.workspace}}/build
         wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
         chmod +x linuxdeploy-x86_64.AppImage
@@ -86,6 +85,7 @@ jobs:
         -G "Ninja" \
         -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
         -DPKG_SYSTEM_PYTHON=1 \
+        -DAPPIMAGE_BUILD=1 \
         -DCMAKE_BUILD_TYPE=Release \
         -DINSTALL_HICOLOR_ICONS=1 \
         -DCMAKE_INSTALL_PREFIX=/usr \
@@ -93,9 +93,7 @@ jobs:
         -DCMAKE_SKIP_RPATH=ON
         ninja
         DESTDIR=sigil.AppDir ninja install
-        cp -f $GITHUB_WORKSPACE/sigil ${{runner.workspace}}/build/sigil.AppDir/usr/bin/
         NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
-        cp -f $GITHUB_WORKSPACE/qt.conf ${{runner.workspace}}/build/sigil.AppDir/usr/lib/sigil/
         ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
 
     - name: Upload Artifact
