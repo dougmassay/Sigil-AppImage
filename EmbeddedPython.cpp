@@ -270,8 +270,9 @@ EmbeddedPython::EmbeddedPython()
         }
     }
 #else // *nix
-    QString pyhomepath = QCoreApplication::applicationDirPath();
-    //QString pyhomepath = QCoreApplication::applicationDirPath();
+    QDir exedir(QCoreApplication::applicationDirPath());
+    exedir.cdUp();
+    QString pyhomepath = exedir.absolutePath() + "/lib";
     foreach (const QString &src_path, PYTHON_SYS_PATHS) {
         QString pysyspath = pyhomepath + "/python" + BUNDLED_PY_VERSION + src_path;
         qDebug() << "sys.path = " << pysyspath;
