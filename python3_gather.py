@@ -27,8 +27,8 @@ site_packages = [ ('lxml', 'd'),
                   ('urllib3', 'd'),
                   ('certifi', 'd'),
                   ('dulwich', 'd'),
-                  ('css_parser', 'd'),
-                  ('html5lib','d'), 
+                  ('css_parser', 'd')] #,
+'''                  ('html5lib','d'), 
                   ('PIL', 'd'),
                   ('pillow.libs', 'd'), 
                   ('regex','d'),
@@ -36,10 +36,8 @@ site_packages = [ ('lxml', 'd'),
                   ('webencodings', 'd'), # needed by html5lib
                   ('chardet', 'd'),
                   ('shiboken6', 'd'),
-                  ('PySide6', 'd')]
+                  ('PySide6', 'd')]'''
 
-
-#site_packages.extend([('shiboken6', 'd'), ('PySide6', 'd')])
 
 
 def copy_site_packages():
