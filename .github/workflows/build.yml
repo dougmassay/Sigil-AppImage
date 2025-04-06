@@ -95,7 +95,7 @@ jobs:
         -DCMAKE_SKIP_RPATH=ON
         ninja
         DESTDIR=sigil.AppDir ninja install
-        NO_STRIP=true LD_LIBRARY_PATH=lib:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
+        NO_STRIP=true LD_LIBRARY_PATH=lib:sigil.AppDir/usr/lib/python$PY_VER/site-packages/pillow.libs:$LD_LIBRARY_PATH ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
         cp -f $GITHUB_WORKSPACE/AppRun ${{runner.workspace}}/build/sigil.AppDir/
         ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
 

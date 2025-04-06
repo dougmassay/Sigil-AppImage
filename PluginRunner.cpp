@@ -403,7 +403,7 @@ void PluginRunner::startPlugin()
         preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
         preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
         env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
-        env.insert("SIGIL_APPIMAGE_BUILD", 1);
+        env.insert("SIGIL_APPIMAGE_BUILD", "1");
     }
     else {  // Linux native Python settings
         // Remove Sigil's appdir from LD_LIBRARY_PATH if it exists in environment so system Python can run unimpeded.
