@@ -27,16 +27,16 @@ site_packages = [ ('lxml', 'd'),
                   ('urllib3', 'd'),
                   ('certifi', 'd'),
                   ('dulwich', 'd'),
-                  ('css_parser', 'd')] #,
-'''                  ('html5lib','d'), 
-                  ('PIL', 'd'),
-                  ('pillow.libs', 'd'), 
+                  ('css_parser', 'd'),
+                  ('html5lib','d'), 
+                  #('PIL', 'd'),
+                  #('pillow.libs', 'd'), 
                   ('regex','d'),
                   ('cssselect', 'd'),
                   ('webencodings', 'd'), # needed by html5lib
                   ('chardet', 'd'),
                   ('shiboken6', 'd'),
-                  ('PySide6', 'd')]'''
+                  ('PySide6', 'd')]
 
 
 
@@ -58,7 +58,10 @@ def copy_site_packages():
                                 print('Here we are dir!')
                                 print(f'Src: {os.path.join(path, entry)}')
                                 print(f'Dest: {os.path.join(site_dest, entry)}')
-                                shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True, ignore=ignore_in_dirs)
+                                if entry == 'pillow.libs':
+                                    shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True)
+                                else:
+                                    shutil.copytree(os.path.join(path, entry), os.path.join(site_dest, entry), dirs_exist_ok=True, ignore=ignore_in_dirs)
                             found = True
                             break
                         else:
