@@ -388,7 +388,7 @@ void PluginRunner::startPlugin()
         // Replace Qt environment variables with our own (for bundled PyQt5)
         env.insert("QT_QPA_PLATFORM_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/platforms"));
         env.insert("QT_PLUGIN_PATH", QDir::toNativeSeparators(AppImageLibs + "/plugins"));
-        // Prepend Sigil program directory to LD_LIBRARY_PATH so the bundled interpreter
+        // Prepend Sigil lib directory to LD_LIBRARY_PATH so the bundled interpreter
         // can find the included Qt libs (for PyQt6) and the Python dll.
         QStringList ld = env.value("LD_LIBRARY_PATH", "").split(PATH_LIST_DELIM);
         // Make sure Sigil's libdir appears only once ... and first.
@@ -399,10 +399,10 @@ void PluginRunner::startPlugin()
         // If launched by another program (calibre), the new working directory could mess with how the
         // bundled interpreter finds/loads PyQt6. So set it manually to the bundled interpreter's directory.
         //m_process.setWorkingDirectory(QDir::toNativeSeparators(QFileInfo(m_enginePath).absolutePath()));
-        QStringList preload;
-        preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
-        preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
-        env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
+        //QStringList preload;
+        //preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
+        //preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
+        //env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
         env.insert("SIGIL_APPIMAGE_BUILD", "1");
     }
     else {  // Linux native Python settings

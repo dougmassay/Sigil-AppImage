@@ -71,6 +71,7 @@ jobs:
         cp -f PluginRunner.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Dialogs/
         cp -f EmbeddedPython.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/EmbedPython/
         cp -f PluginDB.cpp ${GITHUB_WORKSPACE}/sigilsrc/src/Misc/
+        cp -f wrapper.py ${GITHUB_WORKSPACE}/sigilsrc/src/Resource_Files/plugin_launchers/python/
         cd ${{runner.workspace}}/build
         wget -nv https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
         chmod +x linuxdeploy-x86_64.AppImage

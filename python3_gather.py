@@ -133,11 +133,12 @@ def copy_tk_tcl():
             return ans
 
 
-    src = os.path.join(pybase, "tcl")
+    src = os.path.join('/usr/share', 'tcltk')
     for entry in os.listdir(src):
         if entry in ('tk8.6', 'tcl8.6'):
             if os.path.isdir(os.path.join(src, entry)):
-                shutil.copytree(os.path.join(src, entry), os.path.join(lib_dir, entry), ignore=ignore_lib)
+                main_lib_dir = os.path.abspath(os.path.join(lib_dir, ".."))
+                shutil.copytree(os.path.join(src, entry), os.path.join(main_lib_dir, entry), dirs_exist_ok=True, ignore=ignore_lib)
 
 
 def copy_pybin():
@@ -287,7 +288,7 @@ if __name__ == '__main__':
     #create_site_py()
     # create_pyvenv()
     # create_qt_conf()
-    #copy_tk_tcl()
+    copy_tk_tcl()
     #fix_pyside6_qt_conf()
     #patch_pillow_init()
     #compile_libs()
