@@ -92,10 +92,10 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
             if name.rpartition('.')[-1] == '':
                 ans.append(name)
             '''if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
+                ans.append(name)'''
+            if name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
-            if name.rpartition('.')[-1] == 'pyd' and name.partition('.')[0] not in PYSIDE6_MODULES:
-                ans.append(name)
-            if name.rpartition('.')[-1] == 'pyi' and name.partition('.')[0] not in PYSIDE6_MODULES:
+            '''if name.rpartition('.')[-1] == 'pyi' and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
             # Eliminate Qt6 dll bloat of PyPi Pyside6
             if name.rpartition('.')[-1] == 'so' and name.startswith('Qt6'):
