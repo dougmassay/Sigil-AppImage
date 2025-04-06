@@ -91,15 +91,16 @@ def ignore_in_pyside6_dirs(base, items, ignored_dirs=None):
         else:
             if name.rpartition('.')[-1] == '':
                 ans.append(name)
-            '''if name.rpartition('.')[-1] not in ('py', 'pyd', 'pyi', 'so', 'conf'):
-                ans.append(name)'''
-            if name.partition('.')[0] not in PYSIDE6_MODULES:
+            if name.startswith('libpyside6') or name.startswith('libshiboken6'):
+                pass
+            if name.rpartition('.')[-1] in ('py', 'pyi', 'so'):
+                pass
+            if name.startswith('Qt') and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
-            '''if name.rpartition('.')[-1] == 'pyi' and name.partition('.')[0] not in PYSIDE6_MODULES:
+            if name.rpartition('.')[-1] == 'pyi' and name.partition('.')[0] not in PYSIDE6_MODULES:
                 ans.append(name)
-            # Eliminate Qt6 dll bloat of PyPi Pyside6
-            if name.rpartition('.')[-1] == 'so' and name.startswith('Qt6'):
-                ans.append(name)'''
+            if name.rpartition('.')[-1] == 'so' and name.partition('.')[0] not in PYSIDE6_MODULES:
+                ans.append(name)
     return ans
 
 
@@ -112,9 +113,9 @@ def ignore_in_dirs(base, items, ignored_dirs=None):
         if os.path.isdir(path):
             if name in ignored_dirs: # or not os.path.exists(os.path.join(path, '__init__.py')):
                 ans.append(name)
-        #else:
-        #    if name.rpartition('.')[-1] not in ('so', 'py', 'pxd', 'h', 'rng', 'xsl' ):
-        #        ans.append(name)
+        else:
+            if name.rpartition('.')[-1] not in ('so', 'py'):
+                ans.append(name)
     return ans
 
 
