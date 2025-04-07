@@ -406,23 +406,26 @@ void PluginRunner::startPlugin()
         env.insert("SIGIL_APPIMAGE_BUILD", "1");
     }
     else {  // Linux native Python settings
-        // Remove Sigil's appdir from LD_LIBRARY_PATH if it exists in environment so system Python can run unimpeded.
-        //QStringList ld = env.value("LD_LIBRARY_PATH", "").split(PATH_LIST_DELIM);
-        //ld.removeAll(appdir);
-        // Reset modified LD_LIBRARY_PATH or unset if empty
-        //if (!ld.count()==0) {
-        //    env.insert("LD_LIBRARY_PATH", ld.join(PATH_LIST_DELIM));
-        //}
-        //else {
-        env.remove("LD_LIBRARY_PATH");
         if (APPIMAGE_BUILD) {
+            env.remove("LD_LIBRARY_PATH");
             QStringList preload;
             preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
             preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
             env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
             env.insert("SIGIL_APPIMAGE_BUILD", "1");
+        } else {
+            // Remove Sigil's appdir from LD_LIBRARY_PATH if it exists in environment so system Python can run unimpeded.
+            QString appdir = QCoreApplication::applicationDirPath();
+            QStringList ld = env.value("LD_LIBRARY_PATH", "").split(PATH_LIST_DELIM);
+            ld.removeAll(appdir);
+            // Reset modified LD_LIBRARY_PATH or unset if empty
+            if (!ld.count()==0) {
+                env.insert("LD_LIBRARY_PATH", ld.join(PATH_LIST_DELIM));
+            }
+            else {
+                env.remove("LD_LIBRARY_PATH");
+            }
         }
-        //}
     }
 #endif
 
