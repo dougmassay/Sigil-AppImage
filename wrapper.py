@@ -1048,6 +1048,7 @@ class Wrapper(object):
             if 'SIGIL_APPIMAGE_BUILD' in os.environ:
                 lib_dir = os.path.abspath(os.path.join(self.appdir, "..", "lib"))
             lib_name = 'libsigilgumbo.so'
+            print(os.path.join(lib_dir, lib_name))
         return os.path.join(lib_dir, lib_name)
 
     def get_hunspell_path(self):
@@ -1063,4 +1064,5 @@ class Wrapper(object):
             if 'SIGIL_APPIMAGE_BUILD' in os.environ:
                 lib_dir = os.path.abspath(os.path.join(self.appdir, "..", "lib"))
             lib_name = 'libhunspell.so'
+            print(os.path.join(lib_dir, lib_name))
         return os.path.join(lib_dir, lib_name)

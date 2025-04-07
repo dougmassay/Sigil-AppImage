@@ -420,6 +420,7 @@ void PluginRunner::startPlugin()
             preload.append(QDir::toNativeSeparators(AppImageLibs + "/libsigilgumbo.so"));
             preload.append(QDir::toNativeSeparators(AppImageLibs + "/libhunspell.so"));
             env.insert("LD_PRELOAD", preload.join(PATH_LIST_DELIM));
+            env.insert("SIGIL_APPIMAGE_BUILD", "1");
         }
         //}
     }
