@@ -383,6 +383,8 @@ void PluginRunner::startPlugin()
         foreach(QString envvar, vars_to_unset) {
             env.remove(envvar);
         }
+        QString cert_path = AppImageLibs + PYTHON_LIB_PATH + "/site-packages" + "/certifi/cacert.pem";
+        env.insert("SSL_CERT_FILE", cert_path);
         // Qt5.7+ variable that may interfere in the future.
         env.remove("QT_QPA_PLATFORMTHEME");
         // Replace Qt environment variables with our own (for bundled PyQt5)
