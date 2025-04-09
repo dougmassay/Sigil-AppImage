@@ -57,7 +57,7 @@ jobs:
         mkdir ${{runner.workspace}}/build
         pip install lxml six urllib3 certifi dulwich css-parser
         pip install -r $GITHUB_WORKSPACE/requirements.txt
-        python3 $GITHUB_WORKSPACE/python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
+        python3 $GITHUB_WORKSPACE/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
     - name: Install dependencies
       run: |
