@@ -81,7 +81,7 @@ exclude_libs = [
     "libXrender.so.1",
 ]
 
-remove_libs(pth):
+def remove_libs(pth):
     for f in exclude_libs:
         libpth = os.path.join(pth, f)
         if os.path.isfile(libpth):
