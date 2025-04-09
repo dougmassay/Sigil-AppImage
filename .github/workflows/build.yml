@@ -61,7 +61,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        sudo apt-get install -y mesa-common-dev libglu1-mesa-dev libxcb-cursor-dev
+        sudo apt-get install -y mesa-common-dev libglu1-mesa-dev libxcb-cursor-dev libgtk-3-dev
         which cmake
         cmake --version
         which ninja
