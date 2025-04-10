@@ -19,6 +19,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
+        token: ${{ secrets.GITHUB_TOKEN }}
         ref: master
 
     - name: Checkout Sigil
@@ -114,17 +115,11 @@ jobs:
         path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
         retention-days: 8
 
-  upload:
-    name: Create release and upload artifacts
-    needs:
-      - build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
-      - name: Inspect directory after downloading artifacts
-        run: ls -alFR
-      - name: Create release and upload artifacts
+    - name: Download artifacts
+      uses: actions/download-artifact@v4
+    - name: Inspect directory after downloading artifacts
+      run: ls -alFR
+    - name: Create release and upload artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
