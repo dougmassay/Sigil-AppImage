@@ -12,8 +12,7 @@ jobs:
 
   build:
     runs-on: ubuntu-22.04
-    permissions:
-      contents: write
+
     #container:
     #  image: ubuntu:20.04
     #  options: --privileged
@@ -21,7 +20,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         ref: master
 
     - name: Checkout Sigil
@@ -117,15 +115,22 @@ jobs:
         path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
         retention-days: 8
 
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-    - name: Inspect directory after downloading artifacts
-      run: ls -alFR
-
-    - name: Create release and upload artifacts
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-          wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
-          chmod +x pyuploadtool-x86_64.AppImage
-          ./pyuploadtool-x86_64.AppImage ./**/Sigil*.AppImage*
+  upload:
+    name: Create release and upload artifacts
+    needs:
+      - build
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+      - name: Inspect directory after downloading artifacts
+        run: ls -alFR
+      - name: Create release and upload artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+            wget -q https://github.com/TheAssassin/pyuploadtool/releases/download/continuous/pyuploadtool-x86_64.AppImage
+            chmod +x pyuploadtool-x86_64.AppImage
+            ./pyuploadtool-x86_64.AppImage ./**/Sigil*.AppImage*
