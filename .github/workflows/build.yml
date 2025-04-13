@@ -27,6 +27,7 @@ jobs:
       with:
         repository: Sigil-Ebook/Sigil
         ref: master
+        fetch-depth: 0
         path: sigilsrc
 
     - name: Set up Python
