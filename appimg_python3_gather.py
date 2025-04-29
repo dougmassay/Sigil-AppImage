@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim:fileencoding=UTF-8:ts=4:sw=4:sta:et:sts=4:ai
 
-import sys, os, glob, inspect, shutil, platform, textwrap, site
+import sys, os, subprocess, glob, inspect, shutil, platform, textwrap, site
 
 # Get "real" python binary, libs and stdlibs regardless if a venv is being used.
 global base_dest
