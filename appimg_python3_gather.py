@@ -11,8 +11,10 @@ global py_exe
 
 #AppImage Destination directories
 global lib_dir
+global lib_dynload
 global site_dest
 global bin_dir
+
 
 # QUiTools needs QtOpenGlWidgets (on Windows anyway)
 PYSIDE6_MODULES = [
@@ -38,6 +40,21 @@ site_packages = [ ('lxml', 'd'),
                   ('shiboken6', 'd'),
                   ('PySide6', 'd')]
 
+
+def set_rpath(f, depth=0, addorigin=False):
+    if depth == 0:
+        subprocess.check_call(['patchelf', '--set-rpath', '$ORIGIN', f])
+        print('Setting rpath of {} to $ORIGIN'.format(os.path.basename(f)))
+        return
+    else:
+        recurse = ''.join(['../' for x in range(depth)])
+        if addorigin:
+             rpath = '$ORIGIN:$ORIGIN/{}{}'.format(recurse, 'lib')
+        else:
+            rpath = '$ORIGIN/{}{}'.format(recurse, 'lib')
+        subprocess.check_call(['patchelf', '--set-rpath', rpath, f])
+        print('Setting rpath of {} to {}'.format(os.path.basename(f), rpath))
+        return
 
 
 def copy_site_packages():
@@ -142,7 +159,10 @@ def copy_tk_tcl():
 
 
 def copy_pybin():
-    shutil.copy2(py_exe, os.path.join(bin_dir, 'python3'))
+    new_py_binary = os.path.join(bin_dir, 'python3')
+    shutil.copy2(py_exe, new_py_binary)
+    # Set RPATH for python binary
+    set_rpath(new_py_binary, depth=2)
 
 
 def copy_python():
@@ -156,6 +176,13 @@ def copy_python():
         return ans
 
     shutil.copytree(pylib, lib_dir, ignore=ignore_lib)
+
+    # Set RPATH for shared libraries in lib-dynload to root lib dir
+    #root = os.path.join(py_dir, 'lib-dynload')
+    for item in os.listdir(lib_dynload):
+        f = os.path.join(lib_dynload, item)
+        if os.path.isfile(f) and os.path.splitext(f)[1] == '.so':
+            set_rpath(f, depth=3, addorigin=True)
 
 
 def compile_libs():
@@ -276,6 +303,7 @@ if __name__ == '__main__':
     #print(files)
 
     lib_dir = os.path.join(base_dest, 'usr', 'lib', f'python{py_ver}',)
+    lib_dynload = os.path.join(lib_dir, 'lib-dynload')
     #os.makedirs(lib_dir, exist_ok=True)
     bin_dir = os.path.join(base_dest, 'usr', 'bin')
     os.makedirs(bin_dir, exist_ok=True)
