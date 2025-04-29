@@ -162,7 +162,7 @@ def copy_pybin():
     new_py_binary = os.path.join(bin_dir, 'python3')
     shutil.copy2(py_exe, new_py_binary)
     # Set RPATH for python binary
-    set_rpath(new_py_binary, depth=2)
+    set_rpath(new_py_binary, depth=1)
 
 
 def copy_python():
