@@ -57,7 +57,7 @@ jobs:
       run: |
         which python3
         mkdir ${{runner.workspace}}/build
-        pip install lxml six urllib3 certifi dulwich css-parser
+        pip install patchelf
         pip install -r $GITHUB_WORKSPACE/requirements.txt
         python3 $GITHUB_WORKSPACE/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
