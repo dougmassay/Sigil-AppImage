@@ -18,7 +18,7 @@ global bin_dir
 
 # QUiTools needs QtOpenGlWidgets (on Windows anyway)
 PYSIDE6_MODULES = [
-    'QtCore', 'QtGui', 'QtNetwork', 'QtOpenGLWidgets', 'QtPdf', 'QtPrintSupport',
+    'QtCore', 'QtDBus', 'QtGui', 'QtNetwork', 'QtOpenGLWidgets', 'QtPdf', 'QtPrintSupport',
     'QtUiTools','QtWebEngine', 'QtWebEngineCore', 'QtWebEngineWidgets',
     'QtWebChannel', 'QtSvg', 'QtWidgets', 'Shiboken'
     ]
