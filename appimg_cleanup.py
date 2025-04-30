@@ -98,14 +98,13 @@ def remove_libs(pth):
             if isfile(f):
                 os.remove(f)
 
-    dupe_shiboken = glob.glob('{}/libshiboken6*'.format(libpth))
-    print('{}/libshiboken6*'.format(libpth))
+    dupe_shiboken = glob.glob('{}/libshiboken6**'.format(libpth))
+    print('{}/libshiboken6**'.format(libpth))
     if len(dupe_shiboken):
         print('shiboken libs {}'.format(dupe_shiboken))
         for f in dupe_shiboken:
             if isfile(f):
                 os.remove(f)
-                
 
 def clean_pillow_libs(srcd, destd):
     print('src {}'.format(srcd))
@@ -120,8 +119,8 @@ def clean_pillow_libs(srcd, destd):
             os,remove(f)
 
 if __name__ == '__main__':
-    pylib_path = sys.argv[1]
+    appimagelib_path = sys.argv[1]
     py_ver = sys.argv[2]
     pil_src = os.path.join(pylib_path, 'python{}'.format(py_ver), 'site-packages', 'pillow.libs')
-    remove_libs(pylib_path)
-    clean_pillow_libs(pil_src, pylib_path)
+    remove_libs(appimagelib_path)
+    clean_pillow_libs(pil_src, appimagelib_path)
