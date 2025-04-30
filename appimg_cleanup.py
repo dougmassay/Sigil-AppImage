@@ -90,7 +90,22 @@ def remove_libs(pth):
             # If it fails, inform the user.
             print(f"{f} not found")
 
-def clean_pillow_libs(srcd, destd)
+    dupe_pyside = glob.glob('{}/libpyside6*'.format(libpth))
+    if len(dupe_pyside):
+        print('pyside libs {}'.format(dupe_pyside)
+        for f in dupe_pyside:
+            if isfile(f):
+                os.remove(f)
+
+    dupe_shiboken = glob.glob('{}/libshiboken6*'.format(libpth))
+    if len(dupe_shiboken):
+        print('shiboken libs {}'.format(dupe_shiboken)
+        for f in dupe_shiboken:
+            if isfile(f):
+                os.remove(f)
+                
+
+def clean_pillow_libs(srcd, destd):
     print('src {}'.format(srcd))
     print('dest {}'.format(destd))
     pillow_libs = next(walk(srcd), (None, None, []))[2]  # [] if no file
