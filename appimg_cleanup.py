@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim:fileencoding=UTF-8:ts=4:sw=4:sta:et:sts=4:ai
 
-import os, sys, glob
+import os, sys, walk, glob
 
 exclude_libs = [
     "libatk-1.0.so.0",
@@ -91,8 +91,17 @@ def remove_libs(pth):
             print(f"{f} not found")
 
 def clean_pillow_libs(srcd, destd)
-    pillow-libs = glob.glob('{}/*'.format(srcd))
-    print(pillow-libs)
+    print('src {}'.format(srcd))
+    print('dest {}'.format(destd))
+    pillow_libs = next(walk(srcd), (None, None, []))[2]  # [] if no file
+    #pillow_libs = glob.glob('{}/*'.format(srcd))
+    print('pillow.libs {}'.format(pillow_libs))
+    for entry in pillow_libs:
+        f = os.path.join(destd, entry)
+        print('File to remove {}'.format(f))
+        if isfile(f):
+            os,remove(f)
 
 if __name__ == '__main__':
     remove_libs(sys.argv[1])
+    clean_pillow_libs(sys.argv[1], sys.argv[2])
