@@ -121,6 +121,6 @@ def clean_pillow_libs(srcd, destd):
 if __name__ == '__main__':
     appimagelib_path = sys.argv[1]
     py_ver = sys.argv[2]
-    pil_src = os.path.join(pylib_path, 'python{}'.format(py_ver), 'site-packages', 'pillow.libs')
+    pil_src = os.path.join(appimagelib_path, 'python{}'.format(py_ver), 'site-packages', 'pillow.libs')
     remove_libs(appimagelib_path)
     clean_pillow_libs(pil_src, appimagelib_path)
