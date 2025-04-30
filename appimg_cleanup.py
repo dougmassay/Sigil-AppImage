@@ -92,14 +92,14 @@ def remove_libs(pth):
 
     dupe_pyside = glob.glob('{}/libpyside6*'.format(libpth))
     if len(dupe_pyside):
-        print('pyside libs {}'.format(dupe_pyside)
+        print('pyside libs {}'.format(dupe_pyside))
         for f in dupe_pyside:
             if isfile(f):
                 os.remove(f)
 
     dupe_shiboken = glob.glob('{}/libshiboken6*'.format(libpth))
     if len(dupe_shiboken):
-        print('shiboken libs {}'.format(dupe_shiboken)
+        print('shiboken libs {}'.format(dupe_shiboken))
         for f in dupe_shiboken:
             if isfile(f):
                 os.remove(f)
