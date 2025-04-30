@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # vim:fileencoding=UTF-8:ts=4:sw=4:sta:et:sts=4:ai
 
-import os, sys
+import os, sys, glob
 
 exclude_libs = [
     "libatk-1.0.so.0",
@@ -89,6 +89,10 @@ def remove_libs(pth):
         else:
             # If it fails, inform the user.
             print(f"{f} not found")
+
+def clean_pillow_libs(srcd, destd)
+    pillow-libs = glob.glob('{}/*'.format(srcd))
+    print(pillow-libs)
 
 if __name__ == '__main__':
     remove_libs(sys.argv[1])
