@@ -90,7 +90,8 @@ def remove_libs(pth):
             # If it fails, inform the user.
             print(f"{f} not found")
 
-    dupe_pyside = glob.glob('{}/libpyside6*'.format(libpth))
+    dupe_pyside = glob.glob('{}/libpyside6**'.format(libpth))
+    print('{}/libpyside6**'.format(libpth))
     if len(dupe_pyside):
         print('pyside libs {}'.format(dupe_pyside))
         for f in dupe_pyside:
@@ -98,6 +99,7 @@ def remove_libs(pth):
                 os.remove(f)
 
     dupe_shiboken = glob.glob('{}/libshiboken6*'.format(libpth))
+    print('{}/libshiboken6*'.format(libpth))
     if len(dupe_shiboken):
         print('shiboken libs {}'.format(dupe_shiboken))
         for f in dupe_shiboken:
