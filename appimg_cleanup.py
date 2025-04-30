@@ -90,20 +90,20 @@ def remove_libs(pth):
             # If it fails, inform the user.
             print(f"{f} not found")
 
-    dupe_pyside = glob.glob('{}/libpyside6**'.format(libpth))
-    print('{}/libpyside6**'.format(libpth))
+    dupe_pyside = glob.glob('{}/libpyside6*'.format(pth))
+    print('{}/libpyside6*'.format(pth))
     if len(dupe_pyside):
         print('pyside libs {}'.format(dupe_pyside))
         for f in dupe_pyside:
-            if isfile(f):
+            if os.path.isfile(f):
                 os.remove(f)
 
-    dupe_shiboken = glob.glob('{}/libshiboken6**'.format(libpth))
-    print('{}/libshiboken6**'.format(libpth))
+    dupe_shiboken = glob.glob('{}/libshiboken6*'.format(pth))
+    print('{}/libshiboken6*'.format(pth))
     if len(dupe_shiboken):
         print('shiboken libs {}'.format(dupe_shiboken))
         for f in dupe_shiboken:
-            if isfile(f):
+            if os.path.isfile(f):
                 os.remove(f)
 
 def clean_pillow_libs(srcd, destd):
@@ -115,8 +115,8 @@ def clean_pillow_libs(srcd, destd):
     for entry in pillow_libs:
         f = os.path.join(destd, entry)
         print('File to remove {}'.format(f))
-        if isfile(f):
-            os,remove(f)
+        if os.path.isfile(f):
+            os.remove(f)
 
 if __name__ == '__main__':
     appimagelib_path = sys.argv[1]
