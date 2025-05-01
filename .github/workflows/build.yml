@@ -30,6 +30,10 @@ jobs:
         fetch-depth: 0
         path: sigilsrc
 
+    - name: Patch Sigil
+      run: |
+        cp $GITHUB_WORKSPACE/WebProfileMgr.cpp ${{runner.workspace}}/sigilsrc/src/Misc/
+
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
