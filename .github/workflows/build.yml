@@ -32,7 +32,7 @@ jobs:
 
     - name: Patch Sigil
       run: |
-        cp $GITHUB_WORKSPACE/WebProfileMgr.cpp ${{runner.workspace}}/sigilsrc/src/Misc/
+        cp $GITHUB_WORKSPACE/WebProfileMgr.cpp $GITHUB_WORKSPACE/sigilsrc/src/Misc/
 
     - name: Set up Python
       uses: actions/setup-python@v5
