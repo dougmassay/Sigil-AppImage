@@ -105,6 +105,8 @@ jobs:
     - name: Make AppImage
       working-directory: ${{runner.workspace}}/build
       run: |
+        mkdir ${{runner.workspace}}/build/sigil.AppDir/usr/plugins
+        cp ${QT_ROOT_DIR}/plugins/imageformats/libqtiff.so ${{runner.workspace}}/build/sigil.AppDir/usr/plugins/
         DEPLOY_PLATFORM_THEMES=1 \
         NO_STRIP=true \
         DISABLE_COPYRIGHT_FILES_DEPLOYMENT=1 \
