@@ -64,6 +64,8 @@ jobs:
         pip install patchelf
         pip install -r $GITHUB_WORKSPACE/requirements.txt
         python3 $GITHUB_WORKSPACE/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
+        cd ${QT_ROOT_DIR}/plugins/imageformats/
+        ls
 
     - name: Install dependencies
       run: |
