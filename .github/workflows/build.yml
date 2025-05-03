@@ -40,6 +40,11 @@ jobs:
       with:
         python-version: ${{env.PY_VER2}}
 
+    - name: Extra Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libtiff-dev libwebp-dev
+
     - name: Cache Qt
       id: cache-qt
       uses: actions/cache@v4
@@ -65,8 +70,6 @@ jobs:
         pip install patchelf
         pip install -r $GITHUB_WORKSPACE/requirements.txt
         python3 $GITHUB_WORKSPACE/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
-        cd ${{runner.workspace}}/Qt/Qt/$QT_VER/gcc_64/plugins/imageformats/
-        ls
 
     - name: Install dependencies
       run: |
@@ -108,8 +111,6 @@ jobs:
     - name: Make AppImage
       working-directory: ${{runner.workspace}}/build
       run: |
-        mkdir ${{runner.workspace}}/build/sigil.AppDir/usr/plugins
-        cp ${{runner.workspace}}/Qt/Qt/$QT_VER/gcc_64/plugins/imageformats/libqtiff.so ${{runner.workspace}}/build/sigil.AppDir/usr/plugins/
         DEPLOY_PLATFORM_THEMES=1 \
         NO_STRIP=true \
         DISABLE_COPYRIGHT_FILES_DEPLOYMENT=1 \
