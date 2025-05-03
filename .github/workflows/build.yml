@@ -7,6 +7,7 @@ on:
 env:
   PY_VER: 3.13
   PY_VER2: 3.13.2
+  QT_VER: 6.8.2
 
 jobs:
 
@@ -30,9 +31,9 @@ jobs:
         fetch-depth: 0
         path: sigilsrc
 
-    - name: Patch Sigil
-      run: |
-        cp $GITHUB_WORKSPACE/WebProfileMgr.cpp $GITHUB_WORKSPACE/sigilsrc/src/Misc/
+    #- name: Patch Sigil
+    #  run: |
+    #    cp $GITHUB_WORKSPACE/WebProfileMgr.cpp $GITHUB_WORKSPACE/sigilsrc/src/Misc/
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -49,7 +50,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
-        version: '6.8.2'
+        version: ${{env.QT_VER}}
         dir: ${{runner.workspace}}/Qt
         modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport'
         setup-python: 'false'
@@ -64,7 +65,7 @@ jobs:
         pip install patchelf
         pip install -r $GITHUB_WORKSPACE/requirements.txt
         python3 $GITHUB_WORKSPACE/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
-        cd ${QT_ROOT_DIR}/plugins/imageformats/
+        cd ${{runner.workspace}}/Qt/Qt/${{env.QT_VER}}/gcc_64/plugins/imageformats/
         ls
 
     - name: Install dependencies
@@ -108,7 +109,7 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: |
         mkdir ${{runner.workspace}}/build/sigil.AppDir/usr/plugins
-        cp ${QT_ROOT_DIR}/plugins/imageformats/libqtiff.so ${{runner.workspace}}/build/sigil.AppDir/usr/plugins/
+        cp ${{runner.workspace}}/Qt/Qt/$QT_VER/gcc_64/plugins/imageformats/libqtiff.so ${{runner.workspace}}/build/sigil.AppDir/usr/plugins/
         DEPLOY_PLATFORM_THEMES=1 \
         NO_STRIP=true \
         DISABLE_COPYRIGHT_FILES_DEPLOYMENT=1 \
