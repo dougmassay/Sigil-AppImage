@@ -19,7 +19,7 @@ exclude_libs = [
     "libffi.so.6",
     "libgcrypt.so.20",
     "libgdk-3.so.0",
-    "libgdk_pixbuf-2.0.so.0",
+    #"libgdk_pixbuf-2.0.so.0",
     "libgdk-x11-2.0.so.0",
     "libgio-2.0.so.0",
     "libglib-2.0.so.0",
