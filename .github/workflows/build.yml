@@ -8,15 +8,13 @@ env:
   PY_VER: 3.13
   PY_VER2: 3.13.2
   QT_VER: 6.8.2
+  DOWNLOADQT: https://github.com/dougmassay/win-qtwebkit-5.212/releases/download/v5.212-1/QtWebEngine682.tar.xz
 
 jobs:
 
   build:
     runs-on: ubuntu-22.04
 
-    #container:
-    #  image: ubuntu:20.04
-    #  options: --privileged
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -31,31 +29,25 @@ jobs:
         fetch-depth: 0
         path: sigilsrc
 
-    #- name: Patch Sigil
-    #  run: |
-    #    cp $GITHUB_WORKSPACE/WebProfileMgr.cpp $GITHUB_WORKSPACE/sigilsrc/src/Misc/
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: ${{env.PY_VER2}}
 
-    - name: Cache Qt
-      id: cache-qt
-      uses: actions/cache@v4
-      with:
-        path: ${{runner.workspace}}/Qt
-        key: ${{ runner.os }}-sigilqt-${{ hashFiles('**/reset-lin-caches.txt') }}
-  
     - name: Install Qt
       uses: jurplel/install-qt-action@v3
       with:
         version: ${{env.QT_VER}}
         dir: ${{runner.workspace}}/Qt
-        modules: 'qtwebengine qtpositioning qtpdf qtwebchannel qtserialport qtimageformats'
+        modules: 'qtpositioning qtpdf qtwebchannel qtserialport qtimageformats'
         setup-python: 'false'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
+    - name: Install patched QtWebEngine
+      run: |
+        curl -L -o qtwebengine.tar.xz "$DOWNLOADQT"
+        tar -xzvf qtwebengine.tar.xz -C ${{runner.workspace}}/Qt
+    
     - uses: lukka/get-cmake@latest
 
     - name: Package Python
