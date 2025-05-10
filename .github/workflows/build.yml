@@ -46,7 +46,7 @@ jobs:
     - name: Install patched QtWebEngine
       run: |
         curl -L -o qtwebengine.tar.xz "$DOWNLOADQT"
-        tar -xzvf qtwebengine.tar.xz -C ${{runner.workspace}}/Qt
+        tar -xJvf qtwebengine.tar.xz -C ${{runner.workspace}}/Qt
     
     - uses: lukka/get-cmake@latest
 
