@@ -8,7 +8,7 @@ env:
   PY_VER: 3.13
   PY_VER2: 3.13.2
   QT_VER: 6.8.2
-  DOWNLOADQT: https://github.com/dougmassay/win-qtwebkit-5.212/releases/download/v5.212-1/QtWebEngine682.tar.xz
+  DOWNLOADQT: https://github.com/dougmassay/win-qtwebkit-5.212/releases/download/v5.212-1/AppImageWebEngine682.tar.xz
 
 jobs:
 
