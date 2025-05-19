@@ -106,15 +106,15 @@ jobs:
         ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
         python3 $GITHUB_WORKSPACE/sigilsrc/.github/workflows/appimg_cleanup.py ${{runner.workspace}}/build/sigil.AppDir/usr/lib $PY_VER
         cp -f $GITHUB_WORKSPACE/sigilsrc/.github/workflows/AppRun ${{runner.workspace}}/build/sigil.AppDir/
-        LDAI_UPDATE_INFORMATION="gh-releases-zsync|dougmassay|Sigil-AppImage|continuous|Sigil-*x86_64.AppImage.zsync"
+        LDAI_UPDATE_INFORMATION="gh-releases-zsync|dougmassay|Sigil-AppImage|continuous|Sigil-*x86_64.AppImage.zsync" \
         ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
      
     - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: AppImage-artifact
-        path: ${{runner.workspace}}/build/Sigil-x86_64.AppImage
-        retention-days: 8
+        path: ${{runner.workspace}}/build/Sigil-*.AppImage*
+        retention-days: 5
 
   upload:
     name: Create release and upload artifacts
