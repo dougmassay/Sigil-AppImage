@@ -1,0 +1,33 @@
+
+name: Pull upstream Subtree ref
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref_name:
+        description: 'Upstream ref to pull'
+        required: true
+        default: ''
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: master
+        permissions:
+          # Give the default GITHUB_TOKEN write permission to commit and push the
+          # added or changed files to THIS repository.
+          contents: write
+
+      - name: Pull Upstream Changes into subtree
+        run: git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
+
+      - name: Update Subree with Sigil ref
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Pull upstream subtree ref ${{ github.event.inputs.ref_name }}
