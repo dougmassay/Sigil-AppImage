@@ -1,0 +1,8 @@
+if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/Qt${QTVER}")
+    message(STATUS "Downloading Custom Qt6 from developer's github...")
+    set(QTURL "${WINQTURL}/Qt${QTVER}ci_x64_VS2022.7z")
+    file(DOWNLOAD "${QTURL}" "${CMAKE_CURRENT_BINARY_DIR}/qt6.7z")
+    file(ARCHIVE_EXTRACT INPUT "${CMAKE_CURRENT_BINARY_DIR}/qt6.7z" )
+else()
+    message(STATUS "Custom Qt6 has already been downloaded to ${CMAKE_CURRENT_BINARY_DIR}. Will try to use it.")
+endif()
