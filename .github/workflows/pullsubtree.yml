@@ -14,17 +14,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to THIS repository.
+      contents: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           ref: master
-        permissions:
-          # Give the default GITHUB_TOKEN write permission to commit and push the
-          # added or changed files to THIS repository.
-          contents: write
 
-      - name: Pull Upstream Changes into subtree
+      - name: Pull upstream changes into subtree
         run: git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
 
       - name: Update Subree with Sigil ref
