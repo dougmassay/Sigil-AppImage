@@ -24,11 +24,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: master
+          fetch-depth: 0
 
       - name: Pull upstream changes into subtree
-        run: |
-          git subtree add --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git master --squash
-          git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
+        run: git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
 
       - name: Update Subree with Sigil ref
         uses: stefanzweifel/git-auto-commit-action@v5
