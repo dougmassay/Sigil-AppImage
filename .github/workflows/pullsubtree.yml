@@ -25,6 +25,7 @@ jobs:
         with:
           ref: master
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull upstream changes into subtree
         run: git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
