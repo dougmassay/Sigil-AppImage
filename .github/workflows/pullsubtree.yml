@@ -28,7 +28,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Pull upstream changes into subtree
-        run: git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
 
       - name: Update Subree with Sigil ref
         uses: stefanzweifel/git-auto-commit-action@v5
