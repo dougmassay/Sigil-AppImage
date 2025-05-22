@@ -39,7 +39,7 @@ jobs:
       with:
         version: ${{env.QT_VER}}
         dir: ${{runner.workspace}}/Qt
-        modules: 'qtpositioning qtpdf qtwebchannel qtserialport qtimageformats'
+        modules: 'qtpositioning qtpdf qtwebchannel qtserialport qtimageformats qtwaylandcompositor'
         setup-python: 'false'
         cache: ${{ steps.cache-qt.outputs.cache-hit }}
 
@@ -103,6 +103,8 @@ jobs:
       run: |
         DEPLOY_PLATFORM_THEMES=1 \
         DISABLE_COPYRIGHT_FILES_DEPLOYMENT=1 \
+        EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so \
+        EXTRA_QT_MODULES="waylandcompositor" \
         LD_LIBRARY_PATH=lib:sigil.AppDir/usr/lib/python$PY_VER/site-packages/pillow.libs:$LD_LIBRARY_PATH \
         ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
         python3 $GITHUB_WORKSPACE/sigilsrc/.github/workflows/appimg_cleanup.py ${{runner.workspace}}/build/sigil.AppDir/usr/lib $PY_VER
