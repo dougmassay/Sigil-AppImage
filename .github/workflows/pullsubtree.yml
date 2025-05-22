@@ -32,6 +32,7 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
           git subtree pull --prefix sigil_src https://github.com/Sigil-Ebook/Sigil.git ${{ github.event.inputs.ref_name }} --squash
+          git commit -am "Pull in changes to local subtree from upstream repo"
 
       - name: Update Subree with Sigil ref
         uses: stefanzweifel/git-auto-commit-action@v5
