@@ -21,13 +21,13 @@ jobs:
       with:
         ref: master
 
-    - name: Checkout Sigil
-      uses: actions/checkout@v4
-      with:
-        repository: Sigil-Ebook/Sigil
-        ref: master
-        fetch-depth: 0
-        path: sigilsrc
+    #- name: Checkout Sigil
+    #  uses: actions/checkout@v4
+    #  with:
+    #    repository: Sigil-Ebook/Sigil
+    #    ref: master
+    #    fetch-depth: 0
+    #    path: sigilsrc
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -55,8 +55,8 @@ jobs:
         which python3
         mkdir ${{runner.workspace}}/build
         pip install patchelf
-        pip install -r $GITHUB_WORKSPACE/sigilsrc/.github/workflows/requirements.txt
-        python3 $GITHUB_WORKSPACE/sigilsrc/.github/workflows/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
+        pip install -r $GITHUB_WORKSPACE/sigil_src/.github/workflows/requirements.txt
+        python3 $GITHUB_WORKSPACE/sigil_src/.github/workflows/appimg_python3_gather.py ${{runner.workspace}}/build/sigil.AppDir $PY_VER
 
     - name: Install dependencies
       run: |
@@ -84,7 +84,7 @@ jobs:
     - name: Build Sigil
       working-directory: ${{runner.workspace}}/build
       run: |
-        cmake $GITHUB_WORKSPACE/sigilsrc \
+        cmake $GITHUB_WORKSPACE/sigil_src \
         -G "Ninja" \
         -DCMAKE_PREFIX_PATH=${QT_ROOT_DIR}/lib/cmake \
         -DPKG_SYSTEM_PYTHON=1 \
@@ -107,8 +107,8 @@ jobs:
         EXTRA_QT_MODULES="waylandcompositor" \
         LD_LIBRARY_PATH=lib:sigil.AppDir/usr/lib/python$PY_VER/site-packages/pillow.libs:$LD_LIBRARY_PATH \
         ./linuxdeploy-x86_64.AppImage --appdir sigil.AppDir --plugin qt
-        python3 $GITHUB_WORKSPACE/sigilsrc/.github/workflows/appimg_cleanup.py ${{runner.workspace}}/build/sigil.AppDir/usr/lib $PY_VER
-        cp -f $GITHUB_WORKSPACE/sigilsrc/.github/workflows/AppRun ${{runner.workspace}}/build/sigil.AppDir/
+        python3 $GITHUB_WORKSPACE/sigil_src/.github/workflows/appimg_cleanup.py ${{runner.workspace}}/build/sigil.AppDir/usr/lib $PY_VER
+        cp -f $GITHUB_WORKSPACE/sigil_src/.github/workflows/AppRun ${{runner.workspace}}/build/sigil.AppDir/
         LDAI_UPDATE_INFORMATION="gh-releases-zsync|dougmassay|Sigil-AppImage|continuous|Sigil-*x86_64.AppImage.zsync" \
         ./linuxdeploy-plugin-appimage-x86_64.AppImage --appdir=sigil.AppDir
      
@@ -123,7 +123,7 @@ jobs:
     name: Create release and upload artifacts
     needs:
       - build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
