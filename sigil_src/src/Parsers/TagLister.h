@@ -1,6 +1,6 @@
 /************************************************************************
 **
-**  Copyright (C) 2020-2024 Kevin B. Hendricks Stratford, ON, Canada 
+**  Copyright (C) 2020-2025 Kevin B. Hendricks Stratford, ON, Canada 
 **
 **  This file is part of Sigil.
 **
@@ -73,6 +73,7 @@ public:
     int findOpenTagForClose(int i);
     int findCloseTagForOpen(int i);
     int findLastOpenOrSingleTagThatContainsYou(int pos);
+    int findLastOpenTagOnOrBefore(int pos);
     int findBodyOpenTag();
     int findBodyCloseTag();
     QString GeneratePathToTag(int pos);
